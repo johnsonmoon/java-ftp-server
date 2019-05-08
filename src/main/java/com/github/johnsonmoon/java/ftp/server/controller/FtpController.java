@@ -95,4 +95,62 @@ public class FtpController {
             }
         }
     }
+
+    @ApiOperation("Move file into target directory")
+    @GetMapping("/move")
+    public Boolean moveFile(@RequestParam("file") String file,
+                            @RequestParam("targetDir") String targetDir) {
+        if (file == null || file.isEmpty() || targetDir == null || targetDir.isEmpty()) {
+            throw new FtpException("file or targetDir is null!");
+        }
+        File f = new File(file);
+        File dir = new File(targetDir);
+        if (!f.exists() || !dir.exists()) {
+            throw new FtpException("file not exist or targetDir not exist.");
+        }
+        if (!f.isFile() || !dir.isDirectory()) {
+            throw new FtpException("file is not a file or targetDir is not directory.");
+        }
+        File newFile = new File(dir.getPath() + File.separator + f.getName());
+        if (newFile.exists()) {
+            if (newFile.delete()) {
+                throw new FtpException("Old file in target directory exist with same fileName and could not be deleted.");
+            }
+        }
+        try {
+            if (!newFile.createNewFile()) {
+                throw new FtpException("Create new file failed.");
+            }
+        } catch (Exception e) {
+            logger.warn(e.getMessage(), e);
+            throw new FtpException("Create new file failed.");
+        }
+        FileInputStream inputStream = null;
+        FileOutputStream outputStream = null;
+        try {
+            inputStream = new FileInputStream(f);
+            outputStream = new FileOutputStream(newFile);
+            byte[] bytes = new byte[32];
+            int length;
+            while ((length = inputStream.read(bytes)) > 0) {
+                outputStream.write(bytes, 0, length);
+            }
+            outputStream.flush();
+        } catch (Exception e) {
+            logger.warn(e.getMessage(), e);
+            throw new FtpException("Move file failed.");
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (Exception e) {
+                logger.warn(e.getMessage(), e);
+            }
+        }
+        return f.delete();
+    }
 }

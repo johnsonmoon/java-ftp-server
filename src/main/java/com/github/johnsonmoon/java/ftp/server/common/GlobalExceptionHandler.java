@@ -1,6 +1,5 @@
 package com.github.johnsonmoon.java.ftp.server.common;
 
-import com.github.johnsonmoon.java.ftp.server.common.entity.AjaxResponse;
 import com.github.johnsonmoon.java.ftp.server.common.ext.FtpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     @ResponseBody
-    public ResponseEntity<AjaxResponse<?>> handleControllerException(HttpServletRequest request, Throwable ex) {
+    public ResponseEntity<ResponseData> handleControllerException(HttpServletRequest request, Throwable ex) {
         Integer errorCode;
         String message;
         if (FtpException.class.isInstance(ex)) {
@@ -38,10 +37,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             message = "An unexpected error occurred, please check the logger for details.";
             logger.error(message, ex);
         }
-        AjaxResponse<?> ajaxResponse = new AjaxResponse<>();
-        ajaxResponse.setMsg(message);
-        ajaxResponse.setStatus(errorCode);
-        ajaxResponse.setSuccess(false);
-        return new ResponseEntity<>(ajaxResponse, HttpStatus.BAD_REQUEST);
+        ResponseData responseData = new ResponseData();
+        responseData.setStatus(errorCode);
+        responseData.setMessage(message);
+        return new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
     }
 }
