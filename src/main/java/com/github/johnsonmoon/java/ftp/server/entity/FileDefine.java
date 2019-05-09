@@ -8,6 +8,7 @@ public class FileDefine {
     private String path;
     private String absolutePath;
     private String type;
+    private Long size;
 
     public String getName() {
         return name;
@@ -42,6 +43,14 @@ public class FileDefine {
         this.type = type;
     }
 
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
     @Override
     public String toString() {
         return "FileDefine{" +
@@ -49,6 +58,7 @@ public class FileDefine {
                 ", path='" + path + '\'' +
                 ", absolutePath='" + absolutePath + '\'' +
                 ", type='" + type + '\'' +
+                ", size=" + size +
                 '}';
     }
 }
