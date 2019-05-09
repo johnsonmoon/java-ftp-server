@@ -4,7 +4,6 @@ import com.github.johnsonmoon.java.ftp.server.common.ext.FtpException;
 import com.github.johnsonmoon.java.ftp.server.entity.FileDefine;
 import com.github.johnsonmoon.java.ftp.server.entity.FileDefineTypeEnum;
 import com.github.johnsonmoon.java.ftp.server.entity.param.UploadFileParam;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
