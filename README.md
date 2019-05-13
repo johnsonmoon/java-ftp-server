@@ -66,7 +66,7 @@ java -Dserver.port=${port} -cp ${CLASSPATH} com.github.johnsonmoon.java.ftp.serv
 ## usage
 using web browser to visit server
 ```
-http://${IP}:${port}
+http://${IP}:${port}/ftp
 ```
 
 finally you can see this:  
