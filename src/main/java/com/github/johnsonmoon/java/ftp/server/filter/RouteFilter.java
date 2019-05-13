@@ -20,7 +20,7 @@ public class RouteFilter extends HttpFilter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         if (request.getServletPath().equals("/")){
-            response.sendRedirect("swagger-ui.html");
+            response.sendRedirect("/ftp/swagger-ui.html");
         }
         chain.doFilter(req, res);
     }
