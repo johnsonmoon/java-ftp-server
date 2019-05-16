@@ -215,6 +215,61 @@ public class FtpController {
         return f.delete();
     }
 
+    @ApiOperation("Rename file")
+    @GetMapping("/rename")
+    public Boolean renameFile(@RequestParam("file") String file,
+                              @RequestParam("targetFile") String targetFile) {
+        if (file == null || file.isEmpty() || targetFile == null || targetFile.isEmpty()) {
+            throw new FtpException("file or targetDir is null!");
+        }
+        File f = new File(file);
+        File targetF = new File(targetFile);
+        if (!f.exists()) {
+            throw new FtpException("file not exist.");
+        }
+        if (!f.isFile()) {
+            throw new FtpException("file is not a file or targetDir is not directory.");
+        }
+        if (targetF.exists()) {
+            throw new FtpException("targetFile already exist.");
+        }
+        try {
+            if (!targetF.createNewFile()) {
+                throw new FtpException("Create new file failed.");
+            }
+        } catch (Exception e) {
+            logger.warn(e.getMessage(), e);
+            throw new FtpException("Create new file failed.");
+        }
+        FileInputStream inputStream = null;
+        FileOutputStream outputStream = null;
+        try {
+            inputStream = new FileInputStream(f);
+            outputStream = new FileOutputStream(targetF);
+            byte[] bytes = new byte[32];
+            int length;
+            while ((length = inputStream.read(bytes)) > 0) {
+                outputStream.write(bytes, 0, length);
+            }
+            outputStream.flush();
+        } catch (Exception e) {
+            logger.warn(e.getMessage(), e);
+            throw new FtpException("Move file failed.");
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (Exception e) {
+                logger.warn(e.getMessage(), e);
+            }
+        }
+        return f.delete();
+    }
+
     @ApiOperation("Delete file.")
     @GetMapping("/delete")
     public Boolean deleteFile(@RequestParam("file") String file) {
