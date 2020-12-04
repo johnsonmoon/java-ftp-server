@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 
 /**
  * Create by johnsonmoon at 2018/11/28 15:55.
@@ -32,13 +31,21 @@ public class TextTransformController {
             return "[" + filePath + "] is not a file.";
         }
         StringBuilder stringBuilder = new StringBuilder();
-        FileReader reader = null;
+        stringBuilder.append("<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <title>Show</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<pre>");
+        BufferedReader reader = null;
         try {
-            reader = new FileReader(file);
-            char[] buffer = new char[32];
-            int length;
-            while ((length = reader.read(buffer)) > 0) {
-                stringBuilder.append(buffer, 0, length);
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+                stringBuilder.append("\r\n");
             }
         } catch (Exception e) {
             logger.warn(e.getMessage(), e);
@@ -51,6 +58,9 @@ public class TextTransformController {
                 }
             }
         }
+        stringBuilder.append("</pre>\n" +
+                "</body>\n" +
+                "</html>");
         return stringBuilder.toString();
     }
 }
