@@ -19,7 +19,10 @@ public class RouteFilter extends HttpFilter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        if (request.getServletPath().equals("/")){
+        if (request.getServletPath().equals("/")) {
+            response.sendRedirect("/ftp/index.html");
+        }
+        if (request.getServletPath().equals("/swagger")) {
             response.sendRedirect("/ftp/swagger-ui.html");
         }
         chain.doFilter(req, res);

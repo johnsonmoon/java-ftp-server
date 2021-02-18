@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 21011
   servlet:
     context-path: /ftp
 logging:

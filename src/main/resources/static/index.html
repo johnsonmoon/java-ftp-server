@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ftp</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/overall.css">
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Index.js"></script>
+</head>
+<body style="padding-bottom: 80px">
+<div>
+    <div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand">FTP cli</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="col-lg-6 col-center-block">
+        <ol class="breadcrumb">
+            Current path:
+            <li id="ftp_cli_current_dir">/tmp/mid/mid.txt</li>
+        </ol>
+    </div>
+
+    <div id="hotSearchMessageTagChosenDisplay">
+        <div class="col-lg-6 col-center-block">
+            <div class="input-group">
+                <span class="input-group-addon">标签过滤:</span>
+                <select id="hotSearchMessageTagChosen_tag" class="form-control text-align:center"
+                        onchange="tagFilter()">
+                    <option>不过滤</option>
+                </select>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div id="hotSearchMessageList" class="col-lg-6 col-center-block" style="display: none">
+        <table class="table table-bordered">
+            <caption>热搜列表</caption>
+            <thead>
+            <tr>
+                <th>排名</th>
+                <th>关键词</th>
+                <th>指数</th>
+                <th>热度</th>
+                <th>更新时间</th>
+            </tr>
+            </thead>
+            <tbody id="hotSearchMessageList_table_body">
+            </tbody>
+        </table>
+    </div>
+
+    <div id="loading_status" style="display: block">
+        <img class="col-center-block" src="../../image/loading.gif">
+        <br>
+    </div>
+
+    <!-- 返回顶部锚点按钮 -->
+    <div id="top" class="circle" data-spy="affix"><a id="btn_back_top">顶部</a></div>
+</div>
+</body>
+</html>
