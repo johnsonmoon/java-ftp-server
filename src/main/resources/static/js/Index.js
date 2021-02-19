@@ -158,7 +158,6 @@ function deleteFile() {
     executeGet(
         "/delete?file=" + fileDir,
         function (data) {
-            alert(data.toString());
             deleteFileHide();
             displayDir(CURRENT_DIR);
         },
@@ -174,6 +173,7 @@ function renameFileShow(fileDir) {
     $("#ftp_cli_modal_rename_file").attr("class", "modal fade in");
     $("#ftp_cli_modal_rename_file").attr("style", "display: block");
     $("#ftp_cli_modal_rename_file_input_form_input_file_dir").val(fileDir);
+    $("#ftp_cli_modal_rename_file_input_form_input_target_name").val(fileDir);
 }
 
 function renameFileHide() {
@@ -190,7 +190,6 @@ function renameFile() {
     executeGet(
         "/rename?file=" + fileDir + "&targetFile=" + targetName,
         function (data) {
-            alert(data.toString());
             renameFileHide();
             displayDir(CURRENT_DIR);
         },
@@ -206,6 +205,7 @@ function moveFileShow(fileDir) {
     $("#ftp_cli_modal_move_file").attr("class", "modal fade in");
     $("#ftp_cli_modal_move_file").attr("style", "display: block");
     $("#ftp_cli_modal_move_file_input_form_input_file_dir").val(fileDir);
+    $("#ftp_cli_modal_move_file_input_form_input_target_dir").val(CURRENT_DIR);
 }
 
 function moveFileHide() {
@@ -222,7 +222,6 @@ function moveFile() {
     executeGet(
         "/move?file=" + fileDir + "&targetDir=" + targetDir,
         function (data) {
-            alert(data.toString());
             moveFileHide();
             displayDir(CURRENT_DIR);
         },
@@ -257,7 +256,6 @@ function uploadFile() {
         function () {
         },
         function (data) {
-            alert(data.toString());
             uploadFileHide();
             displayDir(CURRENT_DIR);
         },
