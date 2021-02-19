@@ -27,7 +27,7 @@ function getRootDir() {
             displayDir(CURRENT_DIR);
         },
         function (data, code) {
-            alert(data);
+            alert(data.message);
         }
     );
 }
@@ -64,7 +64,7 @@ function displayDir(dir) {
             }
         },
         function (data, code) {
-            alert(data);
+            alert(data.message);
         }
     );
 }
@@ -88,26 +88,23 @@ function addListItem(data) {
     } else if (type === "File") {
         name = "<button class='btn-link'><a href='/ftp/download?file=" + path + "' target='_blank'>" + name + "</a></button>";
     }
+    var operation = "<td></td>\n";
+    if (type === "File") {
+        operation =
+            "<td>" +
+            "<button class='btn-danger' onclick='deleteFileShow(\"" + path + "\")'>delete</button> " +
+            "<button class='btn-success' onclick='renameFileShow(\"" + path + "\")'>rename</button> " +
+            "<button class='btn-info' onclick='moveFileShow(\"" + path + "\")'>move</button>" +
+            "</td>\n";
+    }
     $("#ftp_cli_file_list_table_body").append(
         "<tr>\n" +
         "<td>" + name + "</td>\n" +
         "<td>" + type + "</td>\n" +
         "<td>" + path + "</td>\n" +
         "<td>" + size + "</td>\n" +
-        "<td><button class='btn-danger' onclick='removeFile(\"" + path + "\")'>delete</button></td>\n" +
+        operation +
         "</tr>"
-    );
-}
-
-function removeFile(path) {
-    executeGet(
-        "/delete?file=" + path,
-        function (data) {
-            displayDir(CURRENT_DIR);
-        },
-        function (data, code) {
-            alert(data);
-        }
     );
 }
 
@@ -128,4 +125,96 @@ function getBackwardDir(dir) {
     } else {
         return "/";
     }
+}
+
+function deleteFileShow(fileDir) {
+    $("#ftp_cli_modal_delete_file").attr("class", "modal fade in");
+    $("#ftp_cli_modal_delete_file").attr("style", "display: block");
+    $("#ftp_cli_modal_delete_file_input_form_input_file_dir").val(fileDir);
+}
+
+function deleteFileHide() {
+    $("#ftp_cli_modal_delete_file").attr("class", "modal fade");
+    $("#ftp_cli_modal_delete_file").attr("style", "display: none");
+}
+
+function deleteFile() {
+    var fileDir = $("#ftp_cli_modal_delete_file_input_form_input_file_dir").val();
+    executeGet(
+        "/delete?file=" + fileDir,
+        function (data) {
+            alert(data.toString());
+            deleteFileHide();
+            displayDir(CURRENT_DIR);
+        },
+        function (data, code) {
+            alert(data.message);
+            deleteFileHide();
+            displayDir(CURRENT_DIR);
+        }
+    );
+}
+
+function renameFileShow(fileDir) {
+    $("#ftp_cli_modal_rename_file").attr("class", "modal fade in");
+    $("#ftp_cli_modal_rename_file").attr("style", "display: block");
+    $("#ftp_cli_modal_rename_file_input_form_input_file_dir").val(fileDir);
+}
+
+function renameFileHide() {
+    $("#ftp_cli_modal_rename_file").attr("class", "modal fade");
+    $("#ftp_cli_modal_rename_file").attr("style", "display: none");
+}
+
+function renameFile() {
+    var fileDir = $("#ftp_cli_modal_rename_file_input_form_input_file_dir").val();
+    var targetName = $("#ftp_cli_modal_rename_file_input_form_input_target_name").val();
+    if (fileDir === "" || targetName === "") {
+        alert("file or target name must not be null!");
+    }
+    executeGet(
+        "/rename?file=" + fileDir + "&targetFile=" + targetName,
+        function (data) {
+            alert(data.toString());
+            renameFileHide();
+            displayDir(CURRENT_DIR);
+        },
+        function (data, code) {
+            alert(data.message);
+            renameFileHide();
+            displayDir(CURRENT_DIR);
+        }
+    );
+}
+
+function moveFileShow(fileDir) {
+    $("#ftp_cli_modal_move_file").attr("class", "modal fade in");
+    $("#ftp_cli_modal_move_file").attr("style", "display: block");
+    $("#ftp_cli_modal_move_file_input_form_input_file_dir").val(fileDir);
+}
+
+function moveFileHide() {
+    $("#ftp_cli_modal_move_file").attr("class", "modal fade");
+    $("#ftp_cli_modal_move_file").attr("style", "display: none");
+}
+
+function moveFile() {
+    var fileDir = $("#ftp_cli_modal_move_file_input_form_input_file_dir").val();
+    var targetDir = $("#ftp_cli_modal_move_file_input_form_input_target_dir").val();
+    if (fileDir === "" || targetDir === "") {
+        alert("file or target dir must not be null!");
+    }
+    executeGet(
+        "/move?file=" + fileDir + "&targetDir=" + targetDir,
+        function (data) {
+            alert(data.toString());
+            moveFileHide();
+            displayDir(CURRENT_DIR);
+        },
+        function (data, code) {
+            alert(data.message);
+            moveFileHide();
+            displayDir(CURRENT_DIR);
+        }
+    );
 }

@@ -66,6 +66,119 @@
             <br>
         </div>
     </div>
+
+    <div class="modal fade" id="ftp_cli_modal_delete_file"
+         tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Delete File</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="ftp_cli_modal_delete_file_input_form" role="form">
+                        <div>
+                            <label class="col-lg-6">File</label> <input
+                                id="ftp_cli_modal_delete_file_input_form_input_file_dir"
+                                class="form-control" placeholder="" type="text">
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            id="ftp_cli_modal_delete_file_input_form_submit"
+                            type="button" class="btn btn-primary" onclick="deleteFile()">OK
+                    </button>
+                    <button
+                            id="ftp_cli_modal_delete_file_input_form_submit_cancel"
+                            type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteFileHide()">NO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ftp_cli_modal_move_file"
+         tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Move File</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="ftp_cli_modal_move_file_input_form" role="form">
+                        <div>
+                            <label class="col-lg-6">File</label> <input
+                                id="ftp_cli_modal_move_file_input_form_input_file_dir"
+                                class="form-control" placeholder="" type="text">
+                        </div>
+                        <br>
+                        <div>
+                            <label class="col-lg-6">Target Dir</label>
+                            <textarea
+                                    id="ftp_cli_modal_move_file_input_form_input_target_dir"
+                                    class="form-control" placeholder="" rows="2"></textarea>
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            id="ftp_cli_modal_move_file_input_form_submit"
+                            type="button" class="btn btn-primary" onclick="moveFile()">OK
+                    </button>
+                    <button
+                            id="ftp_cli_modal_move_file_input_form_submit_cancel"
+                            type="button" class="btn btn-default" data-dismiss="modal" onclick="moveFileHide()">NO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ftp_cli_modal_rename_file"
+         tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Rename File</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="ftp_cli_modal_rename_file_input_form" role="form">
+                        <div>
+                            <label class="col-lg-6">File</label> <input
+                                id="ftp_cli_modal_rename_file_input_form_input_file_dir"
+                                class="form-control" placeholder="" type="text">
+                        </div>
+                        <br>
+                        <div>
+                            <label class="col-lg-6">Target Name</label>
+                            <textarea
+                                    id="ftp_cli_modal_rename_file_input_form_input_target_name"
+                                    class="form-control" placeholder="" rows="2"></textarea>
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            id="ftp_cli_modal_rename_file_input_form_submit"
+                            type="button" class="btn btn-primary" onclick="renameFile()">OK
+                    </button>
+                    <button
+                            id="ftp_cli_modal_rename_file_input_form_submit_cancel"
+                            type="button" class="btn btn-default" data-dismiss="modal" onclick="renameFileHide()">NO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

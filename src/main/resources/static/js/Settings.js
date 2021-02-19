@@ -8,7 +8,7 @@ $(document).ready(function () {
             $("#ftp_client_settings_input_form_root_dir").val(ROOT_DIR);
         },
         function (data, code) {
-            alert(data);
+            alert(data.message);
         }
     );
 
@@ -20,7 +20,7 @@ $(document).ready(function () {
                 alert(data.toString());
             },
             function (data, code) {
-                alert(data.toString());
+                alert(data.message);
             }
         );
     });
