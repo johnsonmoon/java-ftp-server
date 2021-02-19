@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ftp-client</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/overall.css">
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/Request.js"></script>
+    <script src="js/Settings.js"></script>
+</head>
+<body>
+<div>
+    <div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">FTP client</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <br>
+    <br>
+
+    <div class="col-lg-6 col-center-block">
+        <div id="ftp_client_settings">
+            <div id="ftp_client_settings_input_form" class="col-center-block" role="form">
+                <div class="input-group">
+                    <span class="input-group-addon">Root Directory</span>
+                    <input id="ftp_client_settings_input_form_root_dir" type="text" class="form-control">
+                </div>
+                <br>
+                <div class="col-lg-6 col-center-block">
+                    <button id="ftp_client_settings_input_form_submit" type="button"
+                            class="btn btn-default btn-block">save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

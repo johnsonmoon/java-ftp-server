@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.Collator;
+import java.util.*;
 
 /**
  * Create by johnsonmoon at 2018/11/28 15:55.
@@ -23,11 +23,34 @@ import java.util.List;
 public class FtpController {
     private static Logger logger = LoggerFactory.getLogger(FtpController.class);
 
+    private static String ROOT_DIR_FLAG = "root";
+    private static String ROOT_DIR = "/";
+
+    @ApiOperation("Set ")
+    @GetMapping("/dir/root")
+    public String setRootDir(@RequestParam(value = "dir", required = false) String dir) {
+        if (dir == null || dir.isEmpty()) {
+            return ROOT_DIR;
+        }
+        File file = new File(dir);
+        if (!file.exists()) {
+            throw new FtpException("Dir not exists!");
+        }
+        if (!file.isDirectory()) {
+            throw new FtpException(String.format("%s is not a directory!", dir));
+        }
+        ROOT_DIR = dir;
+        return "Root directory set [" + ROOT_DIR + "].";
+    }
+
     @ApiOperation("List files of directory.")
     @GetMapping("/list")
     public List<FileDefine> listFiles(@RequestParam("dir") String dir) {
         if (dir == null || dir.isEmpty()) {
             throw new FtpException("Dir must not be null!");
+        }
+        if (dir.equals(ROOT_DIR_FLAG)) {
+            dir = ROOT_DIR;
         }
         File file = new File(dir);
         if (!file.exists()) {
@@ -46,15 +69,49 @@ public class FtpController {
                 fileDefine.setAbsolutePath(f.getAbsolutePath());
                 if (f.isDirectory()) {
                     fileDefine.setType(FileDefineTypeEnum.DIRECTORY.getType());
-                }
-                if (f.isFile()) {
+                } else if (f.isFile()) {
                     fileDefine.setType(FileDefineTypeEnum.FILE.getType());
+                } else {
+                    continue;
                 }
                 fileDefine.setSize(f.length());
                 fileDefines.add(fileDefine);
             }
         }
-        return fileDefines;
+        return basicSort(fileDefines);
+    }
+
+    private List<FileDefine> basicSort(List<FileDefine> fileDefines) {
+        fileDefines.sort(new Comparator<FileDefine>() {
+            @Override
+            public int compare(FileDefine o1, FileDefine o2) {
+                Comparator comparator = Collator.getInstance(Locale.CHINESE);
+                return ((Collator) comparator).compare(o1.getName(), o2.getName());
+            }
+        });
+        final List<FileDefine> dirs = new LinkedList<>();
+        final List<FileDefine> files = new LinkedList<>();
+        final List<FileDefine> hiddenFiles = new LinkedList<>();
+        for (FileDefine file : fileDefines) {
+            if (file.getName().startsWith(".")) {
+                hiddenFiles.add(file);
+                continue;
+            }
+            String type = file.getType();
+            if (type.equals(FileDefineTypeEnum.DIRECTORY.getType())) {
+                dirs.add(file);
+                continue;
+            }
+            if (type.equals(FileDefineTypeEnum.FILE.getType())) {
+                files.add(file);
+                continue;
+            }
+        }
+        List<FileDefine> sorted = new LinkedList<>();
+        sorted.addAll(hiddenFiles);
+        sorted.addAll(dirs);
+        sorted.addAll(files);
+        return sorted;
     }
 
     @ApiOperation("Upload file.")
