@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/overall.css">
     <script src="lib/jquery.min.js"></script>
+    <script src="lib/jquery.form.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/Request.js"></script>
     <script src="js/Index.js"></script>
@@ -44,6 +45,8 @@
                             class="glyphicon glyphicon-step-backward"></span> back</a></li>
                     <li id="ftp_cli_refresh"><a id="ftp_cli_btn_refresh" href="#"><span
                             class="glyphicon glyphicon-refresh"></span> refresh</a></li>
+                    <li id="ftp_cli_upload"><a id="ftp_cli_btn_upload" href="#"><span
+                            class="glyphicon glyphicon-upload"></span> upload</a></li>
                 </ul>
             </div>
         </nav>
@@ -174,6 +177,53 @@
                     <button
                             id="ftp_cli_modal_rename_file_input_form_submit_cancel"
                             type="button" class="btn btn-default" data-dismiss="modal" onclick="renameFileHide()">NO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ftp_cli_modal_upload_file"
+         tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Upload File</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="ftp_cli_modal_upload_file_form" class="bs-example bs-example-form" role="form"
+                          enctype="multipart/form-data">
+                        <div class="input-group">
+                            <span class="input-group-addon">Choose File</span>
+                            <input name="file" id="ftp_cli_modal_upload_file_form_file" type="file"
+                                   class="form-control">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">File Name</span>
+                            <input name="name" id="ftp_cli_modal_upload_file_form_file_name" type="text"
+                                   class="form-control"
+                                   placeholder="">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">Target Dir</span>
+                            <input name="targetDir" id="ftp_cli_modal_upload_file_form_target_dir" type="text"
+                                   class="form-control"
+                                   placeholder="">
+                        </div>
+                        <br>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            id="ftp_cli_modal_upload_file_input_form_submit"
+                            type="button" class="btn btn-primary" onclick="uploadFile()">OK
+                    </button>
+                    <button
+                            id="ftp_cli_modal_upload_file_input_form_submit_cancel"
+                            type="button" class="btn btn-default" data-dismiss="modal" onclick="uploadFileHide()">NO
                     </button>
                 </div>
             </div>

@@ -37,22 +37,24 @@ function executeGet(url, succeeded, failed) {
     });
 }
 
-function executePost(url, jsonData, succeeded, failed) {
-    $.ajax({
+function uploadForm(formIdSelector, url, before, succeeded, failed) {
+    $(formIdSelector).ajaxSubmit({
         url: "http://" + HOST_PORT + CONTEXT_PATH + url,
-        type: "post",
-        contentType: "application/json;charset=utf-8",
-        timeout: 30000,
-        dataType: "json",
-        data: jsonData,
-        xhrFields: {
-            withCredentials: true
+        type: "POST",
+        dataType: "html",
+        contentType: "multipart/form-data",
+        clearForm: false,
+        resetForm: false,
+        timeout: 3600000,
+        beforeSubmit: function () {
+            before();
         },
         success: function (data) {
-            succeeded(data);
+            succeeded(JSON.parse(data));
         },
         error: function (jqXHR, textStatus) {
-            failed(jqXHR.responseJSON, textStatus);
+            var data = JSON.parse(jqXHR.responseText);
+            failed(data, textStatus);
         }
     });
 }

@@ -15,6 +15,21 @@ $(document).ready(function () {
     $("#ftp_cli_btn_back_to_root").click(function () {
         displayDir(ROOT_DIR);
     });
+
+    $("#ftp_cli_btn_upload").click(function () {
+        var dir = $("#ftp_cli_current_dir").text();
+        uploadFileShow(dir);
+    });
+
+    $("#ftp_cli_modal_upload_file_form_file").on("change", function () {
+        var name = $("#ftp_cli_modal_upload_file_form_file").val();
+        if (name.indexOf("/") !== -1) {
+            name = name.substring(name.lastIndexOf("/") + 1, name.length);
+        } else if (name.indexOf("\\") !== -1) {
+            name = name.substring(name.lastIndexOf("\\") + 1, name.length);
+        }
+        $("#ftp_cli_modal_upload_file_form_file_name").val(name);
+    });
 });
 
 function getRootDir() {
@@ -214,6 +229,41 @@ function moveFile() {
         function (data, code) {
             alert(data.message);
             moveFileHide();
+            displayDir(CURRENT_DIR);
+        }
+    );
+}
+
+function uploadFileShow(fileDir) {
+    $("#ftp_cli_modal_upload_file").attr("class", "modal fade in");
+    $("#ftp_cli_modal_upload_file").attr("style", "display: block");
+    $("#ftp_cli_modal_upload_file_form_target_dir").val(fileDir);
+}
+
+function uploadFileHide() {
+    $("#ftp_cli_modal_upload_file").attr("class", "modal fade");
+    $("#ftp_cli_modal_upload_file").attr("style", "display: none");
+}
+
+function uploadFile() {
+    var fileName = $("#ftp_cli_modal_upload_file_form_file_name").val();
+    var targetDir = $("#ftp_cli_modal_upload_file_form_target_dir").val();
+    if (fileName === "" || targetDir === "") {
+        alert("File name or target dir must not be null.");
+    }
+    uploadForm(
+        "#ftp_cli_modal_upload_file_form",
+        "/upload",
+        function () {
+        },
+        function (data) {
+            alert(data.toString());
+            uploadFileHide();
+            displayDir(CURRENT_DIR);
+        },
+        function (data, status) {
+            alert(data.message);
+            uploadFileHide();
             displayDir(CURRENT_DIR);
         }
     );
