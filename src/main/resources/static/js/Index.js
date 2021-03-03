@@ -96,6 +96,9 @@ function addListItem(data) {
         type = "File"
     }
     var path = data.absolutePath;
+    if (path.indexOf("\\") !== -1) {
+        path = path.replaceAll("\\", "\\\\");
+    }
     var size = data.size;
     var name = data.name;
     if (type === "Dir") {
