@@ -17,7 +17,7 @@ $(document).ready(function () {
     });
 
     $("#ftp_cli_btn_upload").click(function () {
-        var dir = $("#ftp_cli_current_dir").text();
+        var dir = windowsPathSeperatorProcess($("#ftp_cli_current_dir").val());
         uploadFileShow(dir);
     });
 
@@ -29,6 +29,18 @@ $(document).ready(function () {
             name = name.substring(name.lastIndexOf("\\") + 1, name.length);
         }
         $("#ftp_cli_modal_upload_file_form_file_name").val(name);
+    });
+
+    $("#ftp_cli_current_dir_btn_goto").click(function () {
+        var dir = windowsPathSeperatorProcess($("#ftp_cli_current_dir").val());
+        displayDir(dir);
+    });
+
+    $("#ftp_cli_current_dir").keydown(function (event) {
+        if (event.which === 13) {
+            var dir = windowsPathSeperatorProcess($("#ftp_cli_current_dir").val());
+            displayDir(dir);
+        }
     });
 });
 
@@ -49,7 +61,7 @@ function getRootDir() {
 
 function currentDir(dir) {
     CURRENT_DIR = dir;
-    $("#ftp_cli_current_dir").text(dir);
+    $("#ftp_cli_current_dir").val(dir);
 }
 
 function loading() {
@@ -95,10 +107,7 @@ function addListItem(data) {
     } else if (data.type === "file") {
         type = "File"
     }
-    var path = data.absolutePath;
-    if (path.indexOf("\\") !== -1) {
-        path = path.replaceAll("\\", "\\\\");
-    }
+    var path = windowsPathSeperatorProcess(data.absolutePath);
     var size = data.size;
     var name = data.name;
     if (type === "Dir") {
@@ -268,4 +277,11 @@ function uploadFile() {
             displayDir(CURRENT_DIR);
         }
     );
+}
+
+function windowsPathSeperatorProcess(path) {
+    if (path.indexOf("\\") !== -1) {
+        path = path.replaceAll("\\", "\\\\");
+    }
+    return path;
 }

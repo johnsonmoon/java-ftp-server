@@ -53,9 +53,13 @@
     </div>
 
     <div class="col-lg-10 col-center-block">
-        <ol class="breadcrumb">
-            <li id="ftp_cli_current_dir"></li>
-        </ol>
+        <div class="input-group">
+            <input id="ftp_cli_current_dir" type="text" class="form-control">
+            <span class="input-group-btn">
+                <button id="ftp_cli_current_dir_btn_goto" type="button" class="btn btn-default btn-block">Goto</button>
+            </span>
+        </div>
+        <br>
 
         <div id="ftp_cli_file_list" style="display: none">
             <table class="table table-striped">
