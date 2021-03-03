@@ -9,6 +9,7 @@ A simple spring-boot web application provides several rest-apis to operating fil
             |- bin          starup scripts
             |- java         java source code
             |- resources    java resource files
+                |- static   static files (including web html page)
     |- assembly.xml         assembly descicription file
     |- pom.xml              maven project description file
 ```
