@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,9 +21,27 @@ import java.io.*;
 public class TextTransformController {
     private static Logger logger = LoggerFactory.getLogger(TextTransformController.class);
 
+    @Value("${ftp.basic.dir.control}")
+    private Boolean ftpBasicDirControl;
+    @Value("${ftp.basic.dir.path}")
+    private String ftpBasicDirPath;
+
+    private String ftpBasicDirParse(String dir) {
+        if (Boolean.TRUE.equals(ftpBasicDirControl)) {
+            if (dir.startsWith(ftpBasicDirPath)) {
+                return dir;
+            } else {
+                return ftpBasicDirPath + File.separator + dir;
+            }
+        } else {
+            return dir;
+        }
+    }
+
     @ApiOperation("Get file content text.")
     @GetMapping("/show")
     public String listFiles(@RequestParam("filePath") String filePath) {
+        filePath = ftpBasicDirParse(filePath);
         File file = new File(filePath);
         if (!file.exists()) {
             return "[" + filePath + "] not exists.";

@@ -10,3 +10,8 @@ spring:
       enabled: true
       max-file-size: 10240MB
       max-request-size: 10240MB
+ftp:
+  basic:
+    dir:
+      control: true
+      path: /temp
